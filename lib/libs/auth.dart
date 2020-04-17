@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_ui_avanzadas/pages/login/login_page.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
@@ -9,7 +11,11 @@ class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  Future<void> facebook() async {
+  Future<FirebaseUser> get user async {
+    return (await _firebaseAuth.currentUser());
+  }
+
+  Future<FirebaseUser> facebook() async {
     try {
       final LoginResult result = await FacebookAuth.instance.login();
       if (result.status == 200) {
@@ -24,17 +30,20 @@ class Auth {
             await _firebaseAuth.signInWithCredential(credential);
         final FirebaseUser user = authResult.user;
         print("facebook username: ${user.displayName} ");
+        return user;
       } else if (result.status == 403) {
         print("facebook login cancelled");
       } else {
         print("facebook login failed");
       }
+      return null;
     } catch (e) {
       print(e);
+      return null;
     }
   }
 
-  Future<void> google() async {
+  Future<FirebaseUser> google() async {
     try {
       final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
       final GoogleSignInAuthentication authentication =
@@ -50,12 +59,30 @@ class Auth {
       final FirebaseUser user = result.user;
 
       print("username: ${user.displayName} ");
+      return user;
     } catch (e) {
       print(e);
+      return null;
     }
   }
 
-  Future<void> logOut() async {
-    
+  Future<void> logOut(BuildContext context) async {
+    final String providerId = (await user).providerData[0].providerId;
+    print("providerId $providerId");
+    switch (providerId) {
+      case "facebook.com":
+        await FacebookAuth.instance.logOut();
+        break;
+      case "google.com":
+        await _googleSignIn.signOut();
+        break;
+      case "password":
+        break;
+      case "phone":
+        break;
+    }
+    await _firebaseAuth.signOut();
+    Navigator.pushNamedAndRemoveUntil(
+        context, LoginPage.routeName, (_) => false);
   }
 }

@@ -6,6 +6,7 @@ import 'package:flutter_ui_avanzadas/pages/login/widgets/welcome.dart';
 import 'package:flutter_ui_avanzadas/utils/responsive.dart';
 
 class LoginPage extends StatefulWidget {
+  static final routeName = 'login';
   LoginPage({Key key}) : super(key: key);
 
   @override

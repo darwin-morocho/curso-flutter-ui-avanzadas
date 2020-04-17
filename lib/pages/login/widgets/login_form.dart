@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_ui_avanzadas/libs/auth.dart';
+import 'package:flutter_ui_avanzadas/pages/home/home_page.dart';
 import 'package:flutter_ui_avanzadas/pages/login/widgets/input_text_login.dart';
 import 'package:flutter_ui_avanzadas/utils/responsive.dart';
 import 'package:flutter_ui_avanzadas/widgets/circle_button.dart';
@@ -8,6 +10,14 @@ import 'package:flutter_ui_avanzadas/widgets/rounded_button.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({Key key}) : super(key: key);
+
+  void _goTo(BuildContext context, FirebaseUser user) {
+    if (user != null) {
+      Navigator.pushReplacementNamed(context, HomePage.routeName);
+    } else {
+      print("login failed");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +76,8 @@ class LoginForm extends StatelessWidget {
                   iconPath: 'assets/pages/login/icons/facebook.svg',
                   backgroundColor: Color(0xff448AFF),
                   onPressed: () async {
-                    await Auth.instance.facebook();
-                    print("listo");
+                    final user = await Auth.instance.facebook();
+                    _goTo(context, user);
                   },
                 ),
                 SizedBox(
@@ -78,8 +88,8 @@ class LoginForm extends StatelessWidget {
                   iconPath: 'assets/pages/login/icons/google.svg',
                   backgroundColor: Color(0xffFF1744),
                   onPressed: () async {
-                    await Auth.instance.google();
-                    print("listo");
+                    final user = await Auth.instance.google();
+                    _goTo(context, user);
                   },
                 ),
               ],
