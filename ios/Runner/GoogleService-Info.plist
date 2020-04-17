@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1025245259260-ubmfd81mvgj3gs767tau41gvrht7j41k.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1025245259260-ubmfd81mvgj3gs767tau41gvrht7j41k</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCT_1VpewYt7Ss3KK3SFpQBlrVilVPD4lw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1025245259260</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>dina.ec.flutterUiAvanzadas</string>
+	<key>PROJECT_ID</key>
+	<string>flutter-ui-avanzadas</string>
+	<key>STORAGE_BUCKET</key>
+	<string>flutter-ui-avanzadas.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1025245259260:ios:6ffec832a3f4e46939be79</string>
+	<key>DATABASE_URL</key>
+	<string>https://flutter-ui-avanzadas.firebaseio.com</string>
+</dict>
+</plist>

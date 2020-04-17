@@ -21,6 +21,10 @@ dependencies:
     sdk: flutter
   flutter_svg: ^0.17.4
   after_layout: ^1.0.7+2
+  firebase_core: ^0.4.4+3
+  firebase_auth: ^0.16.0
+  google_sign_in: ^4.4.1
+  flutter_facebook_auth: ^0.2.1
 
 dev_dependencies:
   flutter_test:
