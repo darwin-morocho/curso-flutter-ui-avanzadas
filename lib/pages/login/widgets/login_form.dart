@@ -76,7 +76,7 @@ class LoginForm extends StatelessWidget {
                   iconPath: 'assets/pages/login/icons/facebook.svg',
                   backgroundColor: Color(0xff448AFF),
                   onPressed: () async {
-                    final user = await Auth.instance.facebook();
+                    final user = await Auth.instance.facebook(context);
                     _goTo(context, user);
                   },
                 ),
@@ -88,7 +88,7 @@ class LoginForm extends StatelessWidget {
                   iconPath: 'assets/pages/login/icons/google.svg',
                   backgroundColor: Color(0xffFF1744),
                   onPressed: () async {
-                    final user = await Auth.instance.google();
+                    final user = await Auth.instance.google(context);
                     _goTo(context, user);
                   },
                 ),

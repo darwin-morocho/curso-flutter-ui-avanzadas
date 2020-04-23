@@ -77,6 +77,10 @@ class _HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.w300,
                         ),
                       ),
+                      SizedBox(height: 20,),
+                      CupertinoButton(child: Text("Log out"), onPressed: (){
+                        Auth.instance.logOut(context);
+                      })
                     ],
                   );
                 } else if (snapshot.hasError) {
