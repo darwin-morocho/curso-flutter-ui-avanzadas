@@ -20,10 +20,11 @@ class Auth {
     ProgressDialog progressDialog = ProgressDialog(context);
     try {
       progressDialog.show();
+
       final LoginResult result = await FacebookAuth.instance.login();
       if (result.status == 200) {
         print("facebook login ok");
-        // final userData = await FacebookAuth.instance.getUserData();
+        // final userData = await FaebookAuth.instance.getUserData();
         // print(userData);
 
         final AuthCredential credential = FacebookAuthProvider.getCredential(
