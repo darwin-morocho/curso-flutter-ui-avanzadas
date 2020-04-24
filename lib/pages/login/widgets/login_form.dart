@@ -8,14 +8,35 @@ import 'package:flutter_ui_avanzadas/utils/responsive.dart';
 import 'package:flutter_ui_avanzadas/widgets/circle_button.dart';
 import 'package:flutter_ui_avanzadas/widgets/rounded_button.dart';
 
-class LoginForm extends StatelessWidget {
-  const LoginForm({Key key}) : super(key: key);
+class LoginForm extends StatefulWidget {
+  final VoidCallback onSignUp,onForgot;
+  const LoginForm({Key key, @required this.onSignUp,@required this.onForgot}) : super(key: key);
+
+  @override
+  _LoginFormState createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  final GlobalKey<InputTextLoginState> _emailKey = GlobalKey();
+  final GlobalKey<InputTextLoginState> _passwordKey = GlobalKey();
 
   void _goTo(BuildContext context, FirebaseUser user) {
     if (user != null) {
       Navigator.pushReplacementNamed(context, HomePage.routeName);
     } else {
       print("login failed");
+    }
+  }
+
+  Future<void> _submit() async {
+    if (_emailKey.currentState.validationOk &&
+        _passwordKey.currentState.validationOk) {
+      final user = await Auth.instance.login(
+        context: context,
+        email: _emailKey.currentState.text,
+        password: _passwordKey.currentState.text,
+      );
+      _goTo(context, user);
     }
   }
 
@@ -32,15 +53,30 @@ class LoginForm extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             InputTextLogin(
+              key: _emailKey,
               iconPath: 'assets/pages/login/icons/email.svg',
               placeholder: "Email Address",
+              validator: (text) {
+                if (text.contains("@")) {
+                  return true;
+                }
+                return false;
+              },
             ),
             SizedBox(
               height: responsive.ip(2),
             ),
             InputTextLogin(
+              key: _passwordKey,
               iconPath: 'assets/pages/login/icons/key.svg',
               placeholder: "Password",
+              obscureText: true,
+              validator: (text) {
+                if (text.trim().length >= 6) {
+                  return true;
+                }
+                return false;
+              },
             ),
             Container(
               width: double.infinity,
@@ -51,7 +87,7 @@ class LoginForm extends StatelessWidget {
                   "Forgot password",
                   style: TextStyle(fontFamily: 'sans'),
                 ),
-                onPressed: () {},
+                onPressed: widget.onForgot,
               ),
             ),
             SizedBox(
@@ -59,7 +95,7 @@ class LoginForm extends StatelessWidget {
             ),
             RoundedButton(
               label: "Sign In",
-              onPressed: () {},
+              onPressed: _submit,
             ),
             SizedBox(
               height: responsive.ip(3.3),
@@ -109,7 +145,7 @@ class LoginForm extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: widget.onSignUp,
                 )
               ],
             ),

@@ -96,4 +96,72 @@ class Auth {
     Navigator.pushNamedAndRemoveUntil(
         context, LoginPage.routeName, (_) => false);
   }
+
+  Future<FirebaseUser> signUp(
+      {@required BuildContext context,
+      @required String username,
+      @required String email,
+      @required String password}) async {
+    ProgressDialog progressDialog = ProgressDialog(context);
+    try {
+      progressDialog.show();
+      final AuthResult result =
+          await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      if (result.user != null) {
+        final updateInfo = UserUpdateInfo();
+        updateInfo.displayName = username;
+        await result.user.updateProfile(updateInfo);
+        progressDialog.dismiss();
+        return result.user;
+      }
+      progressDialog.dismiss();
+      return null;
+    } catch (e) {
+      print(e);
+      progressDialog.dismiss();
+      return null;
+    }
+  }
+
+  Future<FirebaseUser> login(
+      {@required BuildContext context,
+      @required String email,
+      @required String password}) async {
+    ProgressDialog progressDialog = ProgressDialog(context);
+    try {
+      progressDialog.show();
+      final AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      progressDialog.dismiss();
+      if (result.user != null) {
+        return result.user;
+      }
+      return null;
+    } catch (e) {
+      print(e);
+      progressDialog.dismiss();
+      return null;
+    }
+  }
+
+  Future<bool> sendPasswordResetEmail(
+      {@required BuildContext context, @required String email}) async {
+    ProgressDialog progressDialog = ProgressDialog(context);
+    try {
+      progressDialog.show();
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      progressDialog.dismiss();
+      return true;
+    } catch (e) {
+      print(e);
+      progressDialog.dismiss();
+      return false;
+    }
+  }
 }
