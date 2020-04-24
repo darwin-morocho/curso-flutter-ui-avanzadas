@@ -77,6 +77,54 @@ class Auth {
     }
   }
 
+  Future<FirebaseUser> signUp(
+    BuildContext context, {
+    @required String username,
+    @required String email,
+    @required String password,
+  }) async {
+    ProgressDialog progressDialog = ProgressDialog(context);
+    try {
+      progressDialog.show();
+
+      final AuthResult result =
+          await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      if (result.user != null) {
+        final UserUpdateInfo userUpdateInfo = UserUpdateInfo();
+        userUpdateInfo.displayName = username;
+        await result.user.updateProfile(userUpdateInfo);
+        progressDialog.dismiss();
+        return result.user;
+      }
+
+      progressDialog.dismiss();
+      return null;
+    } catch (e) {
+      print(e);
+      progressDialog.dismiss();
+      return null;
+    }
+  }
+
+  Future<bool> sendResetEmailLink(BuildContext context,
+      {@required String email}) async {
+    ProgressDialog progressDialog = ProgressDialog(context);
+    try {
+      progressDialog.show();
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      progressDialog.dismiss();
+      return true;
+    } catch (e) {
+      print(e);
+      progressDialog.dismiss();
+      return false;
+    }
+  }
+
   Future<void> logOut(BuildContext context) async {
     final String providerId = (await user).providerData[0].providerId;
     print("providerId $providerId");
