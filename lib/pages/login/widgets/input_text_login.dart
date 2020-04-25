@@ -1,28 +1,85 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_ui_avanzadas/utils/app_colors.dart';
 
-class InputTextLogin extends StatelessWidget {
-  final String iconPath, placeholder;
+class InputTextLogin extends StatefulWidget {
+  final String iconPath, placeholder, initValue;
+  final bool Function(String text) validator;
+  final bool obscureText;
+
+  final TextInputType keyboardType;
+
   const InputTextLogin(
-      {Key key, @required this.iconPath, @required this.placeholder})
+      {Key key,
+      @required this.iconPath,
+      @required this.placeholder,
+      this.validator,
+      this.initValue = '',
+      this.obscureText = false,
+      this.keyboardType = TextInputType.text})
       : assert(iconPath != null && placeholder != null),
         super(key: key);
 
   @override
+  InputTextLoginState createState() => InputTextLoginState();
+}
+
+class InputTextLoginState extends State<InputTextLogin> {
+  TextEditingController _controller;
+  bool _validationOk = false;
+
+  bool get isOk => _validationOk;
+  String get value => _controller.text;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initValue);
+    checkValidation();
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  void checkValidation() {
+    if (widget.validator != null) {
+      final bool isOk = widget.validator(_controller.text);
+      if (_validationOk != isOk) {
+        setState(() {
+          _validationOk = isOk;
+        });
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CupertinoTextField(
+      controller: _controller,
+      keyboardType: widget.keyboardType,
+      obscureText: widget.obscureText,
+      onChanged: (text) => checkValidation(),
       padding: EdgeInsets.symmetric(vertical: 7, horizontal: 5),
       prefix: Container(
         width: 40,
         height: 30,
         padding: EdgeInsets.all(2),
         child: SvgPicture.asset(
-          this.iconPath,
+          this.widget.iconPath,
           color: Color(0xffcccccc),
         ),
       ),
-      placeholder: this.placeholder,
+      suffix: widget.validator != null
+          ? Icon(
+              Icons.check_circle,
+              color: _validationOk ? AppColors.primary : Colors.black12,
+            )
+          : null,
+      placeholder: this.widget.placeholder,
       style: TextStyle(fontFamily: 'sans'),
       placeholderStyle: TextStyle(fontFamily: 'sans', color: Color(0xffcccccc)),
       decoration: BoxDecoration(

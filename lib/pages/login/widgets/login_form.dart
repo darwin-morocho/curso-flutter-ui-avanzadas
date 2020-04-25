@@ -4,11 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_ui_avanzadas/libs/auth.dart';
 import 'package:flutter_ui_avanzadas/pages/home/home_page.dart';
 import 'package:flutter_ui_avanzadas/pages/login/widgets/input_text_login.dart';
+import 'package:flutter_ui_avanzadas/utils/extras.dart';
 import 'package:flutter_ui_avanzadas/utils/responsive.dart';
 import 'package:flutter_ui_avanzadas/widgets/circle_button.dart';
 import 'package:flutter_ui_avanzadas/widgets/rounded_button.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   final VoidCallback onGoToResgister, onGoToForgotPassword;
 
   const LoginForm(
@@ -17,11 +18,34 @@ class LoginForm extends StatelessWidget {
       @required this.onGoToForgotPassword})
       : super(key: key);
 
-  void _goTo(BuildContext context, FirebaseUser user) {
+  @override
+  _LoginFormState createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  final GlobalKey<InputTextLoginState> _emailKey = GlobalKey();
+  final GlobalKey<InputTextLoginState> _passwordKey = GlobalKey();
+
+  void _goTo(FirebaseUser user) {
     if (user != null) {
       Navigator.pushReplacementNamed(context, HomePage.routeName);
     } else {
       print("login failed");
+    }
+  }
+
+  Future<void> _submit() async {
+    final String email = _emailKey.currentState.value;
+    final String password = _passwordKey.currentState.value;
+
+    final bool emailOk = _emailKey.currentState.isOk;
+    final bool passwordOk = _passwordKey.currentState.isOk;
+
+    if (emailOk && passwordOk) {
+      final FirebaseUser user = await Auth.instance
+          .loginByPassword(context, email: email, password: password);
+
+      _goTo(user);
     }
   }
 
@@ -40,15 +64,23 @@ class LoginForm extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               InputTextLogin(
+                key: _emailKey,
                 iconPath: 'assets/pages/login/icons/email.svg',
                 placeholder: "Email Address",
+                keyboardType: TextInputType.emailAddress,
+                validator: (text) => Extras.isValidEmail(text),
               ),
               SizedBox(
                 height: responsive.ip(2),
               ),
               InputTextLogin(
+                key: _passwordKey,
                 iconPath: 'assets/pages/login/icons/key.svg',
                 placeholder: "Password",
+                obscureText: true,
+                validator: (text) {
+                  return text.trim().length >= 6;
+                },
               ),
               Container(
                 width: double.infinity,
@@ -59,7 +91,7 @@ class LoginForm extends StatelessWidget {
                     "Forgot password",
                     style: TextStyle(fontFamily: 'sans'),
                   ),
-                  onPressed: onGoToForgotPassword,
+                  onPressed: widget.onGoToForgotPassword,
                 ),
               ),
               SizedBox(
@@ -67,7 +99,7 @@ class LoginForm extends StatelessWidget {
               ),
               RoundedButton(
                 label: "Sign In",
-                onPressed: () {},
+                onPressed: this._submit,
               ),
               SizedBox(
                 height: responsive.ip(3.3),
@@ -85,7 +117,7 @@ class LoginForm extends StatelessWidget {
                     backgroundColor: Color(0xff448AFF),
                     onPressed: () async {
                       final user = await Auth.instance.facebook(context);
-                      _goTo(context, user);
+                      _goTo(user);
                     },
                   ),
                   SizedBox(
@@ -97,7 +129,7 @@ class LoginForm extends StatelessWidget {
                     backgroundColor: Color(0xffFF1744),
                     onPressed: () async {
                       final user = await Auth.instance.google(context);
-                      _goTo(context, user);
+                      _goTo(user);
                     },
                   ),
                 ],
@@ -117,7 +149,7 @@ class LoginForm extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    onPressed: onGoToResgister,
+                    onPressed: widget.onGoToResgister,
                   )
                 ],
               ),
