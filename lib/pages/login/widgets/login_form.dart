@@ -10,12 +10,15 @@ import 'package:flutter_ui_avanzadas/widgets/circle_button.dart';
 import 'package:flutter_ui_avanzadas/widgets/rounded_button.dart';
 
 class LoginForm extends StatefulWidget {
+  final Alignment alignment;
+
   final VoidCallback onGoToResgister, onGoToForgotPassword;
 
   const LoginForm(
       {Key key,
       @required this.onGoToResgister,
-      @required this.onGoToForgotPassword})
+      @required this.onGoToForgotPassword,
+      this.alignment = Alignment.bottomCenter})
       : super(key: key);
 
   @override
@@ -54,7 +57,7 @@ class _LoginFormState extends State<LoginForm> {
     final Responsive responsive = Responsive.of(context);
 
     return Align(
-      alignment: Alignment.bottomCenter,
+      alignment: widget.alignment,
       child: SafeArea(
         top: false,
         child: Container(

@@ -12,7 +12,12 @@ import 'package:flutter_ui_avanzadas/widgets/rounded_button.dart';
 
 class RegisterForm extends StatefulWidget {
   final VoidCallback onGoToLogin;
-  const RegisterForm({Key key, @required this.onGoToLogin}) : super(key: key);
+  final Alignment alignment;
+  const RegisterForm(
+      {Key key,
+      @required this.onGoToLogin,
+      this.alignment = Alignment.bottomCenter})
+      : super(key: key);
 
   @override
   _RegisterFormState createState() => _RegisterFormState();
@@ -69,7 +74,7 @@ class _RegisterFormState extends State<RegisterForm> {
     final Responsive responsive = Responsive.of(context);
 
     return Align(
-      alignment: Alignment.bottomCenter,
+      alignment: widget.alignment,
       child: SafeArea(
         top: false,
         child: Container(
@@ -111,7 +116,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 key: _emailKey,
                 iconPath: 'assets/pages/login/icons/email.svg',
                 placeholder: "Email Address",
-                 keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.emailAddress,
                 validator: (text) => Extras.isValidEmail(text),
               ),
               SizedBox(
