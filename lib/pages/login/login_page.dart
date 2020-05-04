@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
         child: Container(
           width: double.infinity,
           height: double.infinity,
-          color: Colors.white,
+          color: Colors.transparent,
           child: OrientationBuilder(
             builder: (_, Orientation orientation) {
               if (orientation == Orientation.portrait) {

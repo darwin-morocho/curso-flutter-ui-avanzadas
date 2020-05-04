@@ -30,10 +30,16 @@ dependencies:
   bloc: ^4.0.0
   flutter_bloc: ^4.0.0
   cached_network_image: ^2.1.0+1
+  provider: ^4.0.5+1
+  flutter_inner_drawer: ^0.5.5+3
+  shared_preferences: ^0.5.7
+  sembast: ^2.4.3
+  path: ^1.7.0
+  path_provider: ^1.6.7
+  
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  build_runner:
 
 
 # For information on the generic Dart part of this file, see the
@@ -58,6 +64,8 @@ flutter:
    - assets/pages/login/icons/google.svg
    - assets/pages/login/icons/avatar.svg
    - assets/pages/home/happy-music.svg
+   - assets/pages/home/happy.svg
+   - assets/pages/home/bird.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

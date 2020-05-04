@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_ui_avanzadas/utils/app_colors.dart';
+import 'package:flutter_ui_avanzadas/utils/theme.dart';
 
 class InputTextLogin extends StatefulWidget {
   final String iconPath, placeholder, initValue;
@@ -76,17 +77,26 @@ class InputTextLoginState extends State<InputTextLogin> {
       suffix: widget.validator != null
           ? Icon(
               Icons.check_circle,
-              color: _validationOk ? AppColors.primary : Colors.black12,
+              color: _validationOk
+                  ? AppColors.primary
+                  : (AppTheme.instance.darkEnabled
+                      ? Color(0xff37474f)
+                      : Colors.black12),
             )
           : null,
       placeholder: this.widget.placeholder,
-      style: TextStyle(fontFamily: 'sans'),
+      style: TextStyle(
+        fontFamily: 'sans',
+        color: AppTheme.instance.darkEnabled ? Colors.white : Colors.black87,
+      ),
       placeholderStyle: TextStyle(fontFamily: 'sans', color: Color(0xffcccccc)),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
             width: 1,
-            color: Color(0xffdddddd),
+            color: AppTheme.instance.darkEnabled
+                ? Color(0xff37474f)
+                : Color(0xffdddddd),
           ),
         ),
       ),
