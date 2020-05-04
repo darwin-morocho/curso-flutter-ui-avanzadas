@@ -59,8 +59,10 @@ class _SearchArtistState extends State<SearchArtist> {
                       ),
                       padding: EdgeInsets.zero,
                       onPressed: () {
-                        _controller.text = '';
                         bloc.add(OnSearchChangeEvent(''));
+                        Future.delayed(Duration(milliseconds: 100), () {
+                          _controller.clear();
+                        });
                       },
                     ),
             ),

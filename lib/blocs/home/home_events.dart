@@ -7,8 +7,8 @@ class LoadArtistsEvent extends HomeEvent {}
 class DownloadPlayListsEvent extends HomeEvent {}
 
 class OnSelectedArtistEvent extends HomeEvent {
-  final index;
-  OnSelectedArtistEvent(this.index);
+  final id;
+  OnSelectedArtistEvent(this.id);
 }
 
 class OnSearchChangeEvent extends HomeEvent {

@@ -25,7 +25,7 @@ class LoginForm extends StatefulWidget {
   _LoginFormState createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _LoginFormState extends State<LoginForm> with AutomaticKeepAliveClientMixin {
   final GlobalKey<InputTextLoginState> _emailKey = GlobalKey();
   final GlobalKey<InputTextLoginState> _passwordKey = GlobalKey();
 
@@ -162,4 +162,7 @@ class _LoginFormState extends State<LoginForm> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

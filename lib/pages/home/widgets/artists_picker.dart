@@ -12,8 +12,6 @@ class ArtistsPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = HomeBloc.of(context);
     return BlocBuilder<HomeBloc, HomeState>(
-      condition: (prev, next) =>
-          prev.artists != next.artists || prev.searchText != next.searchText,
       builder: (_, state) {
         final List<Artist> artists = state.artists.where((item) {
           if (state.searchText.isEmpty) return true;
@@ -38,7 +36,7 @@ class ArtistsPicker extends StatelessWidget {
                           onPressed: () {
                             FocusScope.of(context).unfocus();
                             bloc.add(
-                              OnSelectedArtistEvent(index),
+                              OnSelectedArtistEvent(artist.id),
                             );
                           },
                           child: Stack(

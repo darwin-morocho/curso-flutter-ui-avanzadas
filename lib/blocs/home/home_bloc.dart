@@ -35,9 +35,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield* _downLoadPlayLists();
     } else if (event is OnSelectedArtistEvent) {
       final artists = [...this.state.artists];
-      final artist = artists[event.index];
-      artists[event.index] = artist.onSelected(!artist.selected);
-      yield this.state.copyWith(artists: artists);
+      final int index = artists.indexWhere((item) => item.id == event.id);
+      if (index != -1) {
+        final artist = artists[index];
+        artists[index] = artist.onSelected(!artist.selected);
+        yield this.state.copyWith(artists: artists);
+      }
     } else if (event is OnSearchChangeEvent) {
       yield this.state.copyWith(searchText: event.text);
     }

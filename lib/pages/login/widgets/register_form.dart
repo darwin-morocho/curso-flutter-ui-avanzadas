@@ -23,7 +23,7 @@ class RegisterForm extends StatefulWidget {
   _RegisterFormState createState() => _RegisterFormState();
 }
 
-class _RegisterFormState extends State<RegisterForm> {
+class _RegisterFormState extends State<RegisterForm>  with AutomaticKeepAliveClientMixin{
   bool _agree = false;
 
   final GlobalKey<InputTextLoginState> _usernameKey = GlobalKey();
@@ -213,4 +213,7 @@ class _RegisterFormState extends State<RegisterForm> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => false;
 }

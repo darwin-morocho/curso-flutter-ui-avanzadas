@@ -18,7 +18,7 @@ class ForgotPasswordForm extends StatefulWidget {
   _ForgotPasswordFormState createState() => _ForgotPasswordFormState();
 }
 
-class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
+class _ForgotPasswordFormState extends State<ForgotPasswordForm>  with AutomaticKeepAliveClientMixin{
   bool _sent = false;
   final GlobalKey<InputTextLoginState> _emailKey = GlobalKey();
 
@@ -112,4 +112,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
