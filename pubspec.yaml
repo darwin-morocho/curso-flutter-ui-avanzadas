@@ -25,6 +25,10 @@ dependencies:
   firebase_auth: ^0.16.0
   google_sign_in: ^4.4.1
   flutter_facebook_auth: ^0.2.1
+  flutter_inner_drawer: ^0.5.5+3
+  bloc: ^4.0.0
+  flutter_bloc: ^4.0.0
+  equatable: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +56,8 @@ flutter:
    - assets/pages/login/icons/facebook.svg
    - assets/pages/login/icons/google.svg
    - assets/pages/login/icons/avatar.svg
+   - assets/pages/home/bird.svg
+   - assets/pages/home/happy.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

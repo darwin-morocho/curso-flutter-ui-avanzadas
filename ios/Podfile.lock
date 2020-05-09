@@ -136,7 +136,7 @@ DEPENDENCIES:
   - google_sign_in_web (from `.symlinks/plugins/google_sign_in_web/ios`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - AppAuth
     - FBSDKCoreKit
     - FBSDKLoginKit
@@ -208,4 +208,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: e45c292f618eeca3034958d33b444b6e1249b55f
 
-COCOAPODS: 1.7.3
+COCOAPODS: 1.9.1

@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui_avanzadas/libs/auth.dart';
+import 'package:flutter_inner_drawer/inner_drawer.dart';
+import '../../blocs/home/bloc.dart';
+import 'widgets/home_header.dart';
 
 class HomePage extends StatefulWidget {
   static final routeName = 'home';
@@ -10,89 +14,67 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Widget _getAlias(String displayName) {
-    final List<String> tmp = displayName.split(" ");
+  final HomeBloc _bloc = HomeBloc();
 
-    String alias = "";
-    if (tmp.length > 0) {
-      alias = tmp[0][0];
-      if (tmp.length == 2) {
-        alias += tmp[1][0];
-      }
-    }
+  final GlobalKey<InnerDrawerState> _drawerKey = GlobalKey();
 
-    return Center(
-      child: Text(
-        alias,
-        style: TextStyle(fontSize: 30),
-      ),
-    );
-    
+  @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: Colors.white,
-        child: SafeArea(
-          child: FutureBuilder<FirebaseUser>(
-              future: Auth.instance.user,
-              builder: (BuildContext _, AsyncSnapshot<FirebaseUser> snapshot) {
-                if (snapshot.hasData) {
-                  final user = snapshot.data;
+    return BlocProvider.value(
+      value: _bloc,
+      child: InnerDrawer(
+        key: _drawerKey,
+        onTapClose: true,
+        rightChild: Container(
+          color: Colors.white,
+        ),
+        scaffold: Scaffold(
+          body: CustomScrollView(
+            slivers: <Widget>[
+              HomeHeader(
+                drawerKey: this._drawerKey,
+              ),
+              BlocBuilder<HomeBloc, HomeState>(
+                builder: (_, state) {
+                  String text = "";
 
-                  return ListView(
-                    children: <Widget>[
-                      SizedBox(height: 10),
-                      CircleAvatar(
-                        radius: 40,
-                        child: user.photoUrl != null
-                            ? ClipOval(
-                                child: Image.network(
-                                  user.photoUrl,
-                                  width: 74,
-                                  height: 74,
-                                  fit: BoxFit.contain,
-                                ),
-                              )
-                            : _getAlias(user.displayName),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        user.displayName,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        user.email,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
-                      SizedBox(height: 20,),
-                      CupertinoButton(child: Text("Log out"), onPressed: (){
-                        Auth.instance.logOut(context);
-                      })
-                    ],
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text("Network error"),
-                  );
-                }
+                  switch (state.status) {
+                    case HomeStatus.checking:
+                      text = "Checking Database ...";
+                      break;
+                    case HomeStatus.loading:
+                      text = "Loading Artists ...";
+                      break;
 
-                return Center(
-                  child: CupertinoActivityIndicator(),
-                );
-              }),
+                    default:
+                      text = "";
+                  }
+
+                  return SliverFillRemaining(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 30,
+                            vertical: 10,
+                          ),
+                          child: LinearProgressIndicator(),
+                        ),
+                        Text(text)
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
