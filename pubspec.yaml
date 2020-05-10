@@ -29,6 +29,8 @@ dependencies:
   bloc: ^4.0.0
   flutter_bloc: ^4.0.0
   equatable: ^1.1.1
+  dio: ^3.0.9
+  cached_network_image: ^2.2.0+1
 
 dev_dependencies:
   flutter_test:
