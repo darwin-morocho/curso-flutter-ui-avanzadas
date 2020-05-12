@@ -29,7 +29,9 @@ class RoundedButton extends StatelessWidget {
         ),
         padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
         decoration: BoxDecoration(
-          color: this.backgroundColor ?? AppColors.primary,
+          color: (this.backgroundColor ?? AppColors.primary).withOpacity(
+            this.onPressed != null ? 1 : 0.4,
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black26,
