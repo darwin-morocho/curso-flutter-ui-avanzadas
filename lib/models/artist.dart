@@ -46,6 +46,17 @@ class Artist {
     );
   }
 
+  Artist addTracks(List<Track> tracks) {
+    return Artist(
+      id: this.id,
+      name: this.name,
+      picture: this.picture,
+      tracklist: this.tracklist,
+      selected: this.selected,
+      tracks: tracks,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     final List<Map<String, dynamic>> tracks =
         this.tracks.map((e) => e.toJson()).toList();

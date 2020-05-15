@@ -6,6 +6,7 @@ import 'package:flutter_ui_avanzadas/libs/auth.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:flutter_ui_avanzadas/pages/home/widgets/artists_picker.dart';
 import 'package:flutter_ui_avanzadas/pages/home/widgets/home_bottom_bar.dart';
+import 'package:flutter_ui_avanzadas/pages/home/widgets/my_artists.dart';
 import 'package:flutter_ui_avanzadas/pages/home/widgets/search.dart';
 import '../../blocs/home/bloc.dart';
 import 'widgets/home_header.dart';
@@ -51,6 +52,8 @@ class _HomePageState extends State<HomePage> {
                   builder: (_, state) {
                     if (state.status == HomeStatus.selecting) {
                       return ArtistsPicker();
+                    } else if (state.status == HomeStatus.ready) {
+                      return MyArtists();
                     }
 
                     String text = "";
