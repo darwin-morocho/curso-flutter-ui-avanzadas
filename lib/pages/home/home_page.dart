@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ui_avanzadas/db/app_theme.dart';
+import 'package:flutter_ui_avanzadas/db/artists_store.dart';
 import 'package:flutter_ui_avanzadas/libs/auth.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:flutter_ui_avanzadas/pages/home/widgets/artists_picker.dart';
@@ -23,9 +26,25 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<InnerDrawerState> _drawerKey = GlobalKey();
 
   @override
+  void initState() {
+    super.initState();
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: Colors.transparent,
+      ),
+    );
+  }
+
+  @override
   void dispose() {
     _bloc.close();
     super.dispose();
+  }
+
+  Future<void> _logOut() async {
+    await ArtistsStore.instance.clear();
+    await MyAppTheme.instance.setTheme(false);
+    Auth.instance.logOut(context);
   }
 
   @override
@@ -36,7 +55,18 @@ class _HomePageState extends State<HomePage> {
         key: _drawerKey,
         onTapClose: true,
         rightChild: Container(
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                FlatButton(
+                  onPressed: this._logOut,
+                  child: Text("Log out"),
+                )
+              ],
+            ),
+          ),
         ),
         scaffold: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),

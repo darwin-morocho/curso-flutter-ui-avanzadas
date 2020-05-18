@@ -11,6 +11,12 @@ class Responsive {
     @required this.inch,
   });
 
+  factory Responsive.fromSize(Size size) {
+    // c2 = a2+b2 => c = sqrt(a2+b2)
+    final inch = math.sqrt(math.pow(size.width, 2) + math.pow(size.height, 2));
+    return Responsive(width: size.width, height: size.height, inch: inch);
+  }
+
   factory Responsive.of(BuildContext context) {
     final MediaQueryData data = MediaQuery.of(context);
     final size = data.size;

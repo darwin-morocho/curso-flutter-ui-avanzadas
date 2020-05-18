@@ -8,7 +8,8 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class Auth {
   Auth._internal();
-  static Auth get instance => Auth._internal();
+  static Auth _instance = Auth._internal();
+  static Auth get instance => _instance;
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();

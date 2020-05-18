@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui_avanzadas/blocs/home/bloc.dart';
+import 'package:flutter_ui_avanzadas/db/app_theme.dart';
 import 'package:flutter_ui_avanzadas/models/artist.dart';
 import 'package:flutter_ui_avanzadas/widgets/rounded_button.dart';
 
@@ -21,7 +22,9 @@ class HomeBottomBar extends StatelessWidget {
 
         final int count = artistsSelected.length;
         return Container(
-          color: Colors.white,
+          color: MyAppTheme.instance.darkEnabled
+              ? MyAppTheme.instance.darkColor
+              : Colors.white,
           padding: EdgeInsets.all(10),
           child: SafeArea(
             top: false,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui_avanzadas/blocs/home/bloc.dart';
+import 'package:flutter_ui_avanzadas/db/app_theme.dart';
 import 'package:flutter_ui_avanzadas/models/artist.dart';
 
 class Search extends StatefulWidget {
@@ -34,7 +35,12 @@ class _SearchState extends State<Search> {
                   onChanged: (text) {
                     bloc.add(OnSearchEvent(text));
                   },
-                  style: TextStyle(fontFamily: 'sans'),
+                  style: TextStyle(
+                    fontFamily: 'sans',
+                    color: MyAppTheme.instance.darkEnabled
+                        ? Colors.white
+                        : Colors.black,
+                  ),
                   suffix: state.searchText.length > 0
                       ? Padding(
                           padding: EdgeInsets.only(right: 5),
@@ -56,7 +62,9 @@ class _SearchState extends State<Search> {
                     vertical: 12,
                   ),
                   decoration: BoxDecoration(
-                    color: Color(0xffdddddd),
+                    color: MyAppTheme.instance.darkEnabled
+                        ? Color(0xff29434e)
+                        : Color(0xffdddddd),
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
