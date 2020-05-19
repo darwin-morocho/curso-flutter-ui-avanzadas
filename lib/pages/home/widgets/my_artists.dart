@@ -6,6 +6,7 @@ import 'package:flutter_ui_avanzadas/blocs/home/home_bloc.dart';
 import 'package:flutter_ui_avanzadas/blocs/home/home_state.dart';
 import 'package:flutter_ui_avanzadas/db/app_theme.dart';
 import 'package:flutter_ui_avanzadas/models/artist.dart';
+import 'package:flutter_ui_avanzadas/pages/music_player/music_player_page.dart';
 
 class MyArtists extends StatelessWidget {
   const MyArtists({Key key}) : super(key: key);
@@ -20,7 +21,11 @@ class MyArtists extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: CupertinoButton(
-                onPressed: () {},
+                onPressed: () {
+                  final route = MaterialPageRoute(
+                      builder: (_) => MusicPlayerPage(artist: artist));
+                  Navigator.push(context, route);
+                },
                 padding: EdgeInsets.zero,
                 child: Container(
                   decoration: BoxDecoration(
