@@ -4,6 +4,7 @@ import 'package:flutter_ui_avanzadas/blocs/music_player/bloc.dart';
 import 'package:flutter_ui_avanzadas/models/artist.dart';
 import 'package:flutter_ui_avanzadas/pages/music_player/current_track_view.dart';
 import 'package:flutter_ui_avanzadas/pages/music_player/music_controls.dart';
+import 'package:flutter_ui_avanzadas/pages/music_player/music_progress.dart';
 
 class MusicPlayerPage extends StatefulWidget {
   final Artist artist;
@@ -39,10 +40,12 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
           width: double.infinity,
           height: double.infinity,
           child: SafeArea(
+            top: false,
             child: Column(
               children: <Widget>[
                 CurrentTrackView(),
-                MusicControls()
+                MusicControls(),
+                MusicProgress(),
               ],
             ),
           ),

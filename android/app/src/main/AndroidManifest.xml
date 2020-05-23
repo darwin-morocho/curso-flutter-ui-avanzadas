@@ -1,11 +1,18 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="dina.ec.flutter_ui_avanzadas">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="dina.ec.flutter_ui_avanzadas">
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <application android:name="io.flutter.app.FlutterApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher">
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <uses-sdk tools:overrideLibrary="com.dooboolab.fluttersound" android:minSdkVersion="21" />
+
+    <application android:name="io.flutter.app.FlutterApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:usesCleartextTraffic="true">
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
         <activity android:name="com.facebook.FacebookActivity" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" />
@@ -28,5 +35,8 @@
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data android:name="flutterEmbedding" android:value="2" />
+
+
+
     </application>
 </manifest>
