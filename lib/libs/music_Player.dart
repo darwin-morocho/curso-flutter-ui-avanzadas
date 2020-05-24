@@ -54,7 +54,8 @@ class MusicPlayer {
       _position.value = Duration.zero;
       status.value = MusicPlayerStatus.loading;
       final player = await _player.future;
-      //await player.stopPlayer();
+      //if(player.isPaused || player.isPlaying || pla)
+      await player.stopPlayer();
       //await player.startPlayer(fromURI: track.trackPath);
       await player.startPlayerFromTrack(
         track,
