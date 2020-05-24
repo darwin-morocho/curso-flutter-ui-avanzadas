@@ -34,8 +34,8 @@ dependencies:
   sembast: ^2.4.4
   path_provider: ^1.6.8
   provider: ^4.1.2
-  audioplayers: ^0.15.1
-  audio_service: ^0.8.0
+  flutter_sound_lite: ^5.0.1
+ 
 
 dev_dependencies:
   flutter_test:
