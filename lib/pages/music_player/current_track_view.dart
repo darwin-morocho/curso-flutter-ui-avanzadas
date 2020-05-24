@@ -17,12 +17,27 @@ class CurrentTrackView extends StatelessWidget {
               bloc.artist.tracks[state.currentTrackIndex];
           return Column(
             children: <Widget>[
-              SizedBox(height: 10),
-              Container(
-                width: 300,
-                height: 300,
-                child: CachedNetworkImage(
-                  imageUrl: currentTrack.album.cover,
+              AspectRatio(
+                aspectRatio: 16 / 14,
+                child: ClipPath(
+                  clipper: _AlbumClipper(),
+                  child: Container(
+                    child: Stack(
+                      children: <Widget>[
+                        Positioned.fill(
+                          child: CachedNetworkImage(
+                            imageUrl: currentTrack.album.cover,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned.fill(
+                          child: Container(
+                            color: Colors.black.withOpacity(0.5),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 10),
@@ -55,4 +70,19 @@ class CurrentTrackView extends StatelessWidget {
       ),
     );
   }
+}
+
+class _AlbumClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    path.lineTo(0, size.height);
+    path.arcToPoint(Offset(size.width, size.height),
+        radius: Radius.circular(size.width));
+    path.lineTo(size.width, 0);
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
 }
