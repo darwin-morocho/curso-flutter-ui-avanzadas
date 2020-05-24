@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui_avanzadas/blocs/music_player/bloc.dart';
-import 'package:flutter_ui_avanzadas/libs/music_Player.dart';
+import 'package:flutter_ui_avanzadas/libs/music_player.dart';
 
 class MusicControls extends StatelessWidget {
   const MusicControls({Key key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui_avanzadas/blocs/music_player/music_player_bloc.dart';
-import 'package:flutter_ui_avanzadas/libs/music_Player.dart';
+import 'package:flutter_ui_avanzadas/libs/music_player.dart';
 
 String formatTime(Duration duration) {
   if (duration == null) return "--:--";
