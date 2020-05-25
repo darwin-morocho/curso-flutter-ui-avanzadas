@@ -18,7 +18,7 @@ class CurrentTrackView extends StatelessWidget {
           return Column(
             children: <Widget>[
               AspectRatio(
-                aspectRatio: 16 / 14,
+                aspectRatio: 16 / 17,
                 child: ClipPath(
                   clipper: _AlbumClipper(),
                   child: Container(
@@ -43,6 +43,7 @@ class CurrentTrackView extends StatelessWidget {
               SizedBox(height: 10),
               Text(
                 currentTrack.album.title,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w300,
@@ -50,6 +51,7 @@ class CurrentTrackView extends StatelessWidget {
               ),
               Text(
                 currentTrack.title,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.bold,
