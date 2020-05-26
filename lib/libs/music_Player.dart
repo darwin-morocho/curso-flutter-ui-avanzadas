@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_sound_lite/flutter_sound.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:meta/meta.dart';
 
 enum MusicPlayerStatus {
@@ -54,8 +54,10 @@ class MusicPlayer {
       _position.value = Duration.zero;
       status.value = MusicPlayerStatus.loading;
       final player = await _player.future;
-      //if(player.isPaused || player.isPlaying || pla)
-      await player.stopPlayer();
+      if (player.isPaused || player.isPlaying) {
+        await seekTo(Duration.zero);
+      }
+
       //await player.startPlayer(fromURI: track.trackPath);
       await player.startPlayerFromTrack(
         track,

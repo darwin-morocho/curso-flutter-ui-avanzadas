@@ -188,13 +188,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.5+3"
-  flutter_sound_lite:
+  flutter_sound:
     dependency: "direct main"
     description:
-      name: flutter_sound_lite
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.0.1"
+      path: "."
+      ref: pos_lock_screen_364
+      resolved-ref: d828f37042f8a200ff1d454f7bdf81eae369b778
+      url: "https://github.com/Canardoux/flauto.git"
+    source: git
+    version: "5.0.2"
   flutter_spinkit:
     dependency: transitive
     description:

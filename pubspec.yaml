@@ -34,7 +34,10 @@ dependencies:
   sembast: ^2.4.4
   path_provider: ^1.6.8
   provider: ^4.1.2
-  flutter_sound_lite: ^5.0.1
+  flutter_sound: 
+    git: 
+      url: https://github.com/Canardoux/flauto.git
+      ref: pos_lock_screen_364
  
 
 dev_dependencies:

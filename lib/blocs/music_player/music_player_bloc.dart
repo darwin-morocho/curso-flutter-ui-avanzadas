@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_sound_lite/flutter_sound.dart' as FlutterSound;
+import 'package:flutter_sound/flutter_sound.dart' as FlutterSound;
 import 'package:flutter_ui_avanzadas/blocs/music_player/bloc.dart';
 import 'package:flutter_ui_avanzadas/libs/music_player.dart';
 import 'package:flutter_ui_avanzadas/models/artist.dart';
@@ -23,7 +23,7 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
 
   @override
   Future<void> close() async {
-    _player.dispose();
+   await  _player.dispose();
     return super.close();
   }
 
