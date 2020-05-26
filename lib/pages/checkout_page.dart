@@ -1,0 +1,99 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/credit_card_form.dart';
+import 'package:flutter_credit_card/credit_card_model.dart';
+import 'package:flutter_credit_card/credit_card_widget.dart';
+import 'package:flutter_ui_avanzadas/widgets/rounded_button.dart';
+
+class CheckOutPage extends StatefulWidget {
+  final double price;
+
+  const CheckOutPage({Key key, @required this.price}) : super(key: key);
+
+  @override
+  _CheckOutPageState createState() => _CheckOutPageState();
+}
+
+class _CheckOutPageState extends State<CheckOutPage> {
+  String _cardNumber = '', _cardHolder = '', _expiryDate = '', _cvv = '';
+  bool _isOk = false;
+
+  void _check() {
+    if (_cardNumber.length != 19) {
+      _isOk = false;
+      return;
+    }
+
+    if (_cvv.length < 3) {
+      _isOk = false;
+      return;
+    }
+
+    if (_expiryDate.length != 5) {
+      _isOk = false;
+      return;
+    }
+
+    List<String> tmp = _expiryDate.split("/");
+    final int month = int.parse(tmp[0]);
+
+    if (month > 12) {
+      _isOk = false;
+      return;
+    }
+    final int year = int.parse("20" + tmp[1]);
+
+    final DateTime expiryDate = DateTime(year, month, 1);
+
+    DateTime currentDate = DateTime.now().toLocal();
+    currentDate = DateTime(currentDate.year, currentDate.month, 1);
+
+    if (!expiryDate.isAfter(currentDate)) {
+      _isOk = false;
+      return;
+    }
+
+    _isOk = true;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                CreditCardWidget(
+                  cardNumber: _cardNumber,
+                  expiryDate: _expiryDate,
+                  cardHolderName: _cardHolder,
+                  cvvCode: _cvv,
+                  showBackView: false,
+                  height: 200,
+                ),
+                CreditCardForm(
+                  themeColor: Colors.red,
+                  onCreditCardModelChange: (CreditCardModel data) {
+                    _cardNumber = data.cardNumber;
+                    _cardHolder = data.cardHolderName;
+                    _expiryDate = data.expiryDate;
+                    _cvv = data.cvvCode;
+                    _check();
+                    setState(() {});
+                  },
+                ),
+                SizedBox(height: 10),
+                RoundedButton(
+                  label: "PAY \$${widget.price.toStringAsFixed(2)}",
+                  onPressed: _isOk ? () {} : null,
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -1,10 +1,20 @@
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ui_avanzadas/blocs/music_player/bloc.dart';
 import 'package:flutter_ui_avanzadas/models/artist.dart';
+import 'package:flutter_ui_avanzadas/pages/checkout_page.dart';
 import 'package:flutter_ui_avanzadas/pages/music_player/current_track_view.dart';
 import 'package:flutter_ui_avanzadas/pages/music_player/music_controls.dart';
 import 'package:flutter_ui_avanzadas/pages/music_player/music_progress.dart';
+import 'package:flutter_ui_avanzadas/widgets/rounded_button.dart';
+
+double randomPrice() {
+  final Random random = Random();
+  return (random.nextInt(100) + 10).toDouble();
+}
 
 class MusicPlayerPage extends StatefulWidget {
   final Artist artist;
@@ -33,9 +43,25 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
 
   @override
   Widget build(BuildContext context) {
+    final price = randomPrice();
+
     return BlocProvider.value(
       value: _bloc,
       child: Scaffold(
+        bottomNavigationBar: Container(
+          padding: EdgeInsets.all(15),
+          child: RoundedButton(
+            label: "BUY PLAYLIST \$ ${price.toStringAsFixed(2)}",
+            onPressed: () {
+              final MaterialPageRoute route = MaterialPageRoute(
+                builder: (_) => CheckOutPage(
+                  price: price,
+                ),
+              );
+              Navigator.push(context, route);
+            },
+          ),
+        ),
         body: Container(
           width: double.infinity,
           height: double.infinity,
