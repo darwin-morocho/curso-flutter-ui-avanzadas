@@ -26,13 +26,16 @@ class ProgressDialog {
   void show() {
     showCupertinoModalPopup(
       context: this.context,
-      builder: (_) => Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: Colors.white.withOpacity(0.7),
-        child: CupertinoActivityIndicator(
-          radius: 15,
+      builder: (_) => WillPopScope(
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: Colors.white.withOpacity(0.7),
+          child: CupertinoActivityIndicator(
+            radius: 15,
+          ),
         ),
+        onWillPop: () async => false,
       ),
     );
   }

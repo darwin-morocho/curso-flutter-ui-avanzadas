@@ -136,6 +136,7 @@ PODS:
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
+  - Stripe (19.2.0)
 
 DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
@@ -150,6 +151,7 @@ DEPENDENCIES:
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - Stripe
 
 SPEC REPOS:
   trunk:
@@ -174,6 +176,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - nanopb
     - PromisesObjC
+    - Stripe
 
 EXTERNAL SOURCES:
   firebase_auth:
@@ -235,7 +238,8 @@ SPEC CHECKSUMS:
   path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
+  Stripe: d481c2dab9a892fd923f097f854661217f70dc7f
 
-PODFILE CHECKSUM: 0ba44ad07df4ab62269dc769727cf0f12b1e453d
+PODFILE CHECKSUM: 23aeef73c152e2c189e9b58d21e7d9a5f4922b10
 
 COCOAPODS: 1.9.1

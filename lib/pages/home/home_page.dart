@@ -7,6 +7,7 @@ import 'package:flutter_ui_avanzadas/db/app_theme.dart';
 import 'package:flutter_ui_avanzadas/db/artists_store.dart';
 import 'package:flutter_ui_avanzadas/libs/auth.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
+import 'package:flutter_ui_avanzadas/native/striper_sdk.dart';
 import 'package:flutter_ui_avanzadas/pages/home/widgets/artists_picker.dart';
 import 'package:flutter_ui_avanzadas/pages/home/widgets/home_bottom_bar.dart';
 import 'package:flutter_ui_avanzadas/pages/home/widgets/my_artists.dart';
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
         statusBarColor: Colors.transparent,
       ),
     );
+    StripeSDK.instance.init("pk_test_gYQDhVvqvjyBoC4m5hFIj1T900E89Yi7V4");
   }
 
   @override

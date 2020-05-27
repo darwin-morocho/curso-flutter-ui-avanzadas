@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
 import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
+import 'package:flutter_ui_avanzadas/api/payments_api.dart';
+import 'package:flutter_ui_avanzadas/native/striper_sdk.dart';
+import 'package:flutter_ui_avanzadas/utils/dialogs.dart';
 import 'package:flutter_ui_avanzadas/widgets/rounded_button.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 class CheckOutPage extends StatefulWidget {
   final double price;
@@ -15,6 +19,7 @@ class CheckOutPage extends StatefulWidget {
 
 class _CheckOutPageState extends State<CheckOutPage> {
   String _cardNumber = '', _cardHolder = '', _expiryDate = '', _cvv = '';
+  int _year, _month;
   bool _isOk = false;
 
   void _check() {
@@ -52,7 +57,66 @@ class _CheckOutPageState extends State<CheckOutPage> {
       return;
     }
 
+    _year = year;
+    _month = month;
+
     _isOk = true;
+  }
+
+  Future<void> _createPaymentIntent() async {
+    ProgressDialog dialog = ProgressDialog(context);
+    final int amount = (widget.price * 100).ceil();
+    dialog.show();
+    final ResponseCreatePaymentIntent response =
+        await PaymentsAPI.instance.createPaymentIntent(amount);
+
+    if (response != null) {
+      await this._makePay(response);
+      dialog.dismiss();
+    } else {
+      showSimpleNotification(
+        Text(
+          "API Fail",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        background: Colors.redAccent,
+      );
+      dialog.dismiss();
+    }
+  }
+
+  Future<void> _makePay(ResponseCreatePaymentIntent response) async {
+    final String status = await StripeSDK.instance.makePay(
+      clientSecret: response.clientSecret,
+      cardNumber: _cardNumber,
+      year: _year,
+      month: _month,
+      cvv: _cvv,
+    );
+
+    if (status == StripeSDKPaymentResult.succeeded) {
+      showSimpleNotification(
+        Text(
+          "GOOD payment successful",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        background: Colors.green,
+      );
+    } else {
+      showSimpleNotification(
+        Text(
+          status,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        background: Colors.redAccent,
+      );
+    }
   }
 
   @override
@@ -87,7 +151,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
                 SizedBox(height: 10),
                 RoundedButton(
                   label: "PAY \$${widget.price.toStringAsFixed(2)}",
-                  onPressed: _isOk ? () {} : null,
+                  onPressed: _isOk
+                      ? () {
+                          this._createPaymentIntent();
+                        }
+                      : null,
                 )
               ],
             ),
