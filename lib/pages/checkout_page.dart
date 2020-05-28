@@ -97,15 +97,31 @@ class _CheckOutPageState extends State<CheckOutPage> {
     );
 
     if (status == StripeSDKPaymentResult.succeeded) {
-      showSimpleNotification(
-        Text(
-          "GOOD payment successful",
-          style: TextStyle(
-            color: Colors.white,
+      final bool checkOk = await PaymentsAPI.instance.checkPayment(response.id);
+
+      if (checkOk) {
+        showSimpleNotification(
+          Text(
+            "GOOD payment successful",
+            style: TextStyle(
+              color: Colors.white,
+            ),
           ),
-        ),
-        background: Colors.green,
-      );
+          background: Colors.green,
+        );
+      } else {
+        showSimpleNotification(
+          Text(
+            "Payment is OK , but we have an error in our server",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          background: Colors.redAccent,
+        );
+      }
+
+      Navigator.pop(context);
     } else {
       showSimpleNotification(
         Text(

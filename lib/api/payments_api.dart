@@ -56,4 +56,32 @@ class PaymentsAPI {
       return null;
     }
   }
+
+  Future<bool> checkPayment(String paymentIntentId) async {
+    try {
+      final IdTokenResult result =
+          await (await Auth.instance.user).getIdToken();
+
+      final response = await _dio.post(
+        '/check-payment-status',
+        data: {
+          "paymentIntentId": paymentIntentId,
+        },
+        options: Options(
+          headers: {
+            "token": result.token,
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        return response.data['status'] == 'succeeded';
+      }
+
+      return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
 }
