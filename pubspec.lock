@@ -187,7 +187,7 @@ packages:
       name: flutter_facebook_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.1"
+    version: "0.2.3"
   flutter_inner_drawer:
     dependency: "direct main"
     description:

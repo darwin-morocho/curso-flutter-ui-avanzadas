@@ -24,7 +24,7 @@ dependencies:
   firebase_core: ^0.4.4+3
   firebase_auth: ^0.16.0
   google_sign_in: ^4.4.1
-  flutter_facebook_auth: ^0.2.1
+  flutter_facebook_auth: ^0.2.3
   flutter_inner_drawer: ^0.5.5+3
   bloc: ^4.0.0
   flutter_bloc: ^4.0.0

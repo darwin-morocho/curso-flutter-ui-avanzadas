@@ -7,9 +7,11 @@ import androidx.annotation.NonNull;
 import io.flutter.Log;
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
+import io.flutter.embedding.engine.plugins.shim.ShimPluginRegistry;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
+import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
 import com.stripe.android.ApiResultCallback;
@@ -61,7 +63,42 @@ public class MainActivity extends FlutterActivity {
             }
         });
 
+        ShimPluginRegistry registry = new ShimPluginRegistry(flutterEngine);
+        PluginRegistry.Registrar registrar = registry.registrarFor(CHANNEL);
+        registrar.addActivityResultListener(new PluginRegistry.ActivityResultListener() {
+            @Override
+            public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+                if (stripe != null) {
+                    stripe.onPaymentResult(requestCode, data, new ApiResultCallback<PaymentIntentResult>() {
+                        @Override
+                        public void onSuccess(PaymentIntentResult result) {
+                            PaymentIntent intent = result.getIntent();
+                            StripeIntent.Status status = intent.getStatus();
+                            switch (status) {
+                                case Succeeded:
+                                    sendResult("succeeded");
+                                    break;
+                                case Canceled:
+                                    sendResult("canceled");
+                                    break;
+                                default:
+                                    sendResult("failed");
 
+                            }
+
+                        }
+
+                        @Override
+                        public void onError(@NotNull Exception e) {
+                            Log.i("StripeSDK:", e.getMessage());
+                            sendResult("error");
+                        }
+                    });
+                }
+
+                return true;
+            }
+        });
         GeneratedPluginRegistrant.registerWith(flutterEngine);
     }
 
@@ -90,38 +127,6 @@ public class MainActivity extends FlutterActivity {
         this.stripe.confirmPayment(this, confirmPaymentIntentParams);
 
 
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (this.stripe != null) {
-            this.stripe.onPaymentResult(requestCode, data, new ApiResultCallback<PaymentIntentResult>() {
-                @Override
-                public void onSuccess(PaymentIntentResult result) {
-                    PaymentIntent intent = result.getIntent();
-                    StripeIntent.Status status = intent.getStatus();
-                    switch (status) {
-                        case Succeeded:
-                            sendResult("succeeded");
-                            break;
-                        case Canceled:
-                            sendResult("canceled");
-                            break;
-                        default:
-                            sendResult("failed");
-
-                    }
-
-                }
-
-                @Override
-                public void onError(@NotNull Exception e) {
-                    Log.i("StripeSDK:", e.getMessage());
-                    sendResult("error");
-                }
-            });
-        }
     }
 
 
