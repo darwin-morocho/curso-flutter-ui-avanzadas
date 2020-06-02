@@ -168,7 +168,15 @@ class Auth {
   }
 
   Future<void> logOut(BuildContext context) async {
-    final String providerId = (await user).providerData[0].providerId;
+    final List<UserInfo> providers = (await user).providerData;
+    String providerId = "firebase";
+    for (final p in providers) {
+      if (p.providerId != 'firebase') {
+        providerId = p.providerId;
+        break;
+      }
+    }
+
     print("providerId $providerId");
     switch (providerId) {
       case "facebook.com":
