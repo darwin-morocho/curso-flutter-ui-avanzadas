@@ -32,6 +32,8 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive.of(context);
 
+    final bool isPortrait = responsive.width < responsive.height;
+
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -41,20 +43,16 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
           width: double.infinity,
           height: double.infinity,
           color: Colors.white,
-          child: OrientationBuilder(
-            builder: (_, Orientation orientation) {
-              if (orientation == Orientation.portrait) {
-                return SingleChildScrollView(
+          child: isPortrait
+              ? SingleChildScrollView(
                   child: Container(
-                    height: responsive.height,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[Welcome(), LoginForm()],
                     ),
                   ),
-                );
-              } else {
-                return Row(
+                )
+              : Row(
                   children: <Widget>[
                     Expanded(
                       child: SingleChildScrollView(
@@ -79,10 +77,7 @@ class _LoginPageState extends State<LoginPage> with AfterLayoutMixin {
                       ),
                     )
                   ],
-                );
-              }
-            },
-          ),
+                ),
         ),
       ),
     );

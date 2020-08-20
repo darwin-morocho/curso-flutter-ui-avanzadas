@@ -6,11 +6,14 @@ class RoundedButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
   final Color backgroundColor;
+  final double fontSize, verticalPadding;
   const RoundedButton(
       {Key key,
       @required this.onPressed,
       @required this.label,
-      this.backgroundColor})
+      this.backgroundColor,
+      this.fontSize = 18,
+      this.verticalPadding = 10})
       : assert(label != null),
         super(key: key);
 
@@ -22,12 +25,14 @@ class RoundedButton extends StatelessWidget {
         child: Text(
           this.label,
           style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'sans',
-              letterSpacing: 1,
-              fontSize: 18),
+            color: Colors.white,
+            fontFamily: 'sans',
+            letterSpacing: 1,
+            fontSize: this.fontSize,
+          ),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 35, vertical: 10),
+        padding: EdgeInsets.symmetric(
+            horizontal: 35, vertical: this.verticalPadding),
         decoration: BoxDecoration(
           color: this.backgroundColor ?? AppColors.primary,
           boxShadow: [
