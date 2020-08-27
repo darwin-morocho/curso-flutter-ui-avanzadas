@@ -22,7 +22,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   bool _sent = false;
   final GlobalKey<InputTextLoginState> _emailKey = GlobalKey();
 
-  void _goTo(BuildContext context, FirebaseUser user) {
+  void _goTo(BuildContext context, User user) {
     if (user != null) {
       Navigator.pushReplacementNamed(context, HomePage.routeName);
     } else {

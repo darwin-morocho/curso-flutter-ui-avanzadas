@@ -13,11 +13,11 @@ class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  Future<FirebaseUser> get user async {
-    return (await _firebaseAuth.currentUser());
+  User get user {
+    return _firebaseAuth.currentUser;
   }
 
-  Future<FirebaseUser> loginByPassword(
+  Future<User> loginByPassword(
     BuildContext context, {
     @required String email,
     @required String password,
@@ -25,13 +25,13 @@ class Auth {
     ProgressDialog progressDialog = ProgressDialog(context);
     try {
       progressDialog.show();
-      final AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
+      final UserCredential userCredential = await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
 
       progressDialog.dismiss();
 
-      if (result.user != null) {
-        return result.user;
+      if (userCredential.user != null) {
+        return userCredential.user;
       }
       return null;
     } on PlatformException catch (e) {
@@ -50,7 +50,7 @@ class Auth {
     }
   }
 
-  Future<FirebaseUser> facebook(BuildContext context) async {
+  Future<User> facebook(BuildContext context) async {
     ProgressDialog progressDialog = ProgressDialog(context);
     try {
       progressDialog.show();
@@ -61,12 +61,13 @@ class Auth {
         // final userData = await FaebookAuth.instance.getUserData();
         // print(userData);
 
-        final AuthCredential credential = FacebookAuthProvider.getCredential(
-            accessToken: result.accessToken.token);
+        final AuthCredential credential = FacebookAuthProvider.credential(
+          result.accessToken.token,
+        );
 
-        final AuthResult authResult =
+        final UserCredential userCredential =
             await _firebaseAuth.signInWithCredential(credential);
-        final FirebaseUser user = authResult.user;
+        final User user = userCredential.user;
         print("facebook username: ${user.displayName} ");
         progressDialog.dismiss();
         return user;
@@ -84,7 +85,7 @@ class Auth {
     }
   }
 
-  Future<FirebaseUser> google(BuildContext context) async {
+  Future<User> google(BuildContext context) async {
     ProgressDialog progressDialog = ProgressDialog(context);
     try {
       progressDialog.show();
@@ -92,14 +93,15 @@ class Auth {
       final GoogleSignInAuthentication authentication =
           await googleUser.authentication;
 
-      final AuthCredential credential = GoogleAuthProvider.getCredential(
-          idToken: authentication.idToken,
-          accessToken: authentication.accessToken);
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+        idToken: authentication.idToken,
+        accessToken: authentication.accessToken,
+      );
 
-      final AuthResult result =
+      final UserCredential userCredential =
           await _firebaseAuth.signInWithCredential(credential);
 
-      final FirebaseUser user = result.user;
+      final User user = userCredential.user;
 
       print("username: ${user.displayName} ");
       progressDialog.dismiss();
@@ -111,7 +113,7 @@ class Auth {
     }
   }
 
-  Future<FirebaseUser> signUp(
+  Future<User> signUp(
     BuildContext context, {
     @required String username,
     @required String email,
@@ -121,18 +123,16 @@ class Auth {
     try {
       progressDialog.show();
 
-      final AuthResult result =
+      final UserCredential userCredential =
           await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      if (result.user != null) {
-        final UserUpdateInfo userUpdateInfo = UserUpdateInfo();
-        userUpdateInfo.displayName = username;
-        await result.user.updateProfile(userUpdateInfo);
+      if (userCredential.user != null) {
+        userCredential.user.updateProfile(displayName: username);
         progressDialog.dismiss();
-        return result.user;
+        return userCredential.user;
       }
 
       progressDialog.dismiss();

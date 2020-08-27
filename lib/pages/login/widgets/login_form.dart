@@ -29,7 +29,7 @@ class _LoginFormState extends State<LoginForm> {
   final GlobalKey<InputTextLoginState> _emailKey = GlobalKey();
   final GlobalKey<InputTextLoginState> _passwordKey = GlobalKey();
 
-  void _goTo(FirebaseUser user) {
+  void _goTo(User user) {
     if (user != null) {
       Navigator.pushReplacementNamed(context, HomePage.routeName);
     } else {

@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui_avanzadas/libs/auth.dart';
 
+import '../../libs/auth.dart';
+
 class HomePage extends StatefulWidget {
   static final routeName = 'home';
   @override
@@ -27,72 +29,60 @@ class _HomePageState extends State<HomePage> {
         style: TextStyle(fontSize: 30),
       ),
     );
-    
   }
 
   @override
   Widget build(BuildContext context) {
+    final user = Auth.instance.user;
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
         color: Colors.white,
         child: SafeArea(
-          child: FutureBuilder<FirebaseUser>(
-              future: Auth.instance.user,
-              builder: (BuildContext _, AsyncSnapshot<FirebaseUser> snapshot) {
-                if (snapshot.hasData) {
-                  final user = snapshot.data;
-
-                  return ListView(
-                    children: <Widget>[
-                      SizedBox(height: 10),
-                      CircleAvatar(
-                        radius: 40,
-                        child: user.photoUrl != null
-                            ? ClipOval(
-                                child: Image.network(
-                                  user.photoUrl,
-                                  width: 74,
-                                  height: 74,
-                                  fit: BoxFit.contain,
-                                ),
-                              )
-                            : _getAlias(user.displayName),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        user.displayName,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+          child: ListView(
+            children: <Widget>[
+              SizedBox(height: 10),
+              CircleAvatar(
+                radius: 40,
+                child: user.photoURL != null
+                    ? ClipOval(
+                        child: Image.network(
+                          user.photoURL,
+                          width: 74,
+                          height: 74,
+                          fit: BoxFit.contain,
                         ),
-                      ),
-                      Text(
-                        user.email,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
-                      SizedBox(height: 20,),
-                      CupertinoButton(child: Text("Log out"), onPressed: (){
-                        Auth.instance.logOut(context);
-                      })
-                    ],
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text("Network error"),
-                  );
-                }
-
-                return Center(
-                  child: CupertinoActivityIndicator(),
-                );
-              }),
+                      )
+                    : _getAlias(user.displayName),
+              ),
+              SizedBox(height: 10),
+              Text(
+                user.displayName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                user.email,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              CupertinoButton(
+                  child: Text("Log out"),
+                  onPressed: () {
+                    Auth.instance.logOut(context);
+                  })
+            ],
+          ),
         ),
       ),
     );

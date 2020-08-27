@@ -52,7 +52,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
     if (usernameOk && emailOk && passwordOk && vpasswordOk) {
       if (_agree) {
-        final FirebaseUser user = await Auth.instance.signUp(
+        final User user = await Auth.instance.signUp(
           context,
           username: username,
           email: email,

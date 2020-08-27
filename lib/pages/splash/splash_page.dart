@@ -1,5 +1,4 @@
 import 'package:after_layout/after_layout.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui_avanzadas/libs/auth.dart';
@@ -15,13 +14,12 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> with AfterLayoutMixin {
   @override
   void afterFirstLayout(BuildContext context) {
-    Auth.instance.user.then((FirebaseUser user) {
-      if (user != null) {
-        Navigator.pushReplacementNamed(context, HomePage.routeName);
-      } else {
-        Navigator.pushReplacementNamed(context, LoginPage.routeName);
-      }
-    });
+    final user = Auth.instance.user;
+    if (user != null) {
+      Navigator.pushReplacementNamed(context, HomePage.routeName);
+    } else {
+      Navigator.pushReplacementNamed(context, LoginPage.routeName);
+    }
   }
 
   @override
