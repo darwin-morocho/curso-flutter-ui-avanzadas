@@ -57,11 +57,10 @@ class Auth {
 
       final LoginResult result = await FacebookAuth.instance.login();
       if (result.status == 200) {
-        print("facebook login ok");
         // final userData = await FaebookAuth.instance.getUserData();
         // print(userData);
 
-        final AuthCredential credential = FacebookAuthProvider.credential(
+        final OAuthCredential credential = FacebookAuthProvider.credential(
           result.accessToken.token,
         );
 
@@ -137,15 +136,19 @@ class Auth {
 
       progressDialog.dismiss();
       return null;
-    } on PlatformException catch (e) {
-      String message = "Unknown error";
-      if (e.code == "ERROR_EMAIL_ALREADY_IN_USE") {
-        message = e.message;
-      } else if (e.code == "ERROR_WEAK_PASSWORD") {
-        message = e.message;
-      }
-      print(e);
+    } catch (e) {
       progressDialog.dismiss();
+      print(e);
+      print(e.runtimeType);
+      String message = "Unknown error";
+      if (e is FirebaseAuthException) {
+        print(e.code);
+        if (e.code == "email-already-in-use") {
+          message = e.message;
+        } else if (e.code == "weak-password") {
+          message = e.message;
+        }
+      }
       Dialogs.alert(context, title: "ERROR", description: message);
       return null;
     }

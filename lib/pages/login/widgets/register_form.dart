@@ -31,7 +31,7 @@ class _RegisterFormState extends State<RegisterForm> {
   final GlobalKey<InputTextLoginState> _passwordKey = GlobalKey();
   final GlobalKey<InputTextLoginState> _vpasswordKey = GlobalKey();
 
-  void _goTo(FirebaseUser user) {
+  void _goTo(User user) {
     if (user != null) {
       Navigator.pushReplacementNamed(context, HomePage.routeName);
     } else {
