@@ -34,14 +34,16 @@ class Auth {
         return userCredential.user;
       }
       return null;
-    } on PlatformException catch (e) {
+    } catch (e) {
       print(e);
       progressDialog.dismiss();
-      String message = "";
-      if (e.code == "ERROR_USER_NOT_FOUND") {
-        message = "Invalid email. User not found";
-      } else {
-        message = e.message;
+      String message = "Unknown error";
+      if (e is FirebaseAuthException) {
+        if (e.code == "user-not-found") {
+          message = "Invalid email. User not found";
+        } else {
+          message = e.message;
+        }
       }
 
       Dialogs.alert(context, title: "ERROR", description: message);
@@ -162,10 +164,14 @@ class Auth {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
       progressDialog.dismiss();
       return true;
-    } on PlatformException catch (e) {
+    } catch (e) {
       print(e);
+      String message = "Unknown error";
       progressDialog.dismiss();
-      Dialogs.alert(context, title: "ERROR", description: e.message);
+      if (e is FirebaseAuthException) {
+        message = e.message;
+      }
+      Dialogs.alert(context, title: "ERROR", description: message);
       return false;
     }
   }
