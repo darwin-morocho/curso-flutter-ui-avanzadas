@@ -152,7 +152,7 @@ class _RegisterFormState extends State<RegisterForm> {
               DefaultTextStyle(
                 style: TextStyle(
                     fontSize: responsive.ip(1.3),
-                    color: Theme.of(context).textTheme.subtitle.color),
+                    color: Theme.of(context).textTheme.subtitle2.color),
                 child: Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: <Widget>[
