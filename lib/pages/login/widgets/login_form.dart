@@ -45,7 +45,7 @@ class _LoginFormState extends State<LoginForm> {
     final bool passwordOk = _passwordKey.currentState.isOk;
 
     if (emailOk && passwordOk) {
-      final FirebaseUser user = await Auth.instance
+      final User user = await Auth.instance
           .loginByPassword(context, email: email, password: password);
 
       _goTo(user);

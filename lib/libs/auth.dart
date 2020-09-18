@@ -131,7 +131,7 @@ class Auth {
       );
 
       if (userCredential.user != null) {
-        userCredential.user.updateProfile(displayName: username);
+        await userCredential.user.updateProfile(displayName: username);
         progressDialog.dismiss();
         return userCredential.user;
       }
